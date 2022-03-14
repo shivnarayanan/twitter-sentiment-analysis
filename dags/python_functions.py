@@ -23,7 +23,7 @@ def fetchTweets():
     print("Fetching tweets... ")
     search_words = 'covid'
     max_tweets = 10
-    tweets = tweepy.Cursor(api.search, q=search_words, lang="en", tweet_mode='extended').items(max_tweets)
+    tweets = tweepy.Cursor(api.search_tweets, q=search_words, lang="en", tweet_mode='extended').items(max_tweets)
 
     # for tweet in tweets:
     #     print("----------------------------------------------------")
@@ -31,7 +31,7 @@ def fetchTweets():
     #     print(f'Tweeted by: @{tweet.user.screen_name}, Created at: {str(tweet.created_at)}, Location: {tweet.user.location}' )
     #     print("Tweet: " + tweet.full_text)
 
-    filename = "/Users/shivnarayanan/Desktop/twitter-airflow/data/tweets.json"
+    filename = "/usr/local/airflow/data/tweets.json" 
 
     with open(filename, "w") as output:
         for tweet in tweets:
@@ -42,7 +42,7 @@ def readTweets():
     import json 
     import pandas as pd
 
-    filename = "/Users/shivnarayanan/Desktop/twitter-airflow/data/tweets.json" 
+    filename = "/usr/local/airflow/data/tweets.json"  
 
     dfs = []
     with open(filename) as fi:
@@ -54,7 +54,7 @@ def readTweets():
     
     df = pd.concat(dfs, ignore_index=True)
 
-    filepath = '/Users/shivnarayanan/Desktop/twitter-airflow/data/dataframe.csv'
+    filepath = '/usr/local/airflow/data/dataframe.csv'
     df.to_csv(filepath, index=False)
     print("Dataframe created!")
 
