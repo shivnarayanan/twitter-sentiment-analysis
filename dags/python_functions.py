@@ -1,13 +1,14 @@
-def fetchTweets():
+def fetchTweets(**kwargs):
+    import os
     import tweepy
     from tweepy import OAuthHandler
     import pandas as pd
     import json
 
-    consumer_key = 'VvfQ6PLzJON2w7RiOcyXmKm3O' # Add your API key here
-    consumer_secret = 'iWWbwUGBuaoxBHkcnn5u8Vp8IQ8qg7YC6BEmxSa7KpClPYN0dF' # Add your API secret key here
-    access_token = '1433222201780563969-PvXqlg9boERAZUgpVnA9I9zDjQvo5X' # Add your Access Token key here
-    access_token_secret = 'c4y2surpvnhmFfqYLSPGhBbjBPOXlMYwh3GIh59W66Inn' # Add your Access Token secret key here
+    consumer_key = 'VvfQ6PLzJON2w7RiOcyXmKm3O'
+    consumer_secret = 'iWWbwUGBuaoxBHkcnn5u8Vp8IQ8qg7YC6BEmxSa7KpClPYN0dF'
+    access_token = '1433222201780563969-PvXqlg9boERAZUgpVnA9I9zDjQvo5X' 
+    access_token_secret = 'c4y2surpvnhmFfqYLSPGhBbjBPOXlMYwh3GIh59W66Inn' 
 
     auth = OAuthHandler(consumer_key, consumer_secret)
     auth.set_access_token(access_token, access_token_secret)
@@ -22,27 +23,26 @@ def fetchTweets():
 
     print("Fetching tweets... ")
     search_words = 'covid'
-    max_tweets = 10
+    max_tweets = 5
     tweets = tweepy.Cursor(api.search_tweets, q=search_words, lang="en", tweet_mode='extended').items(max_tweets)
 
-    # for tweet in tweets:
-    #     print("----------------------------------------------------")
-    #     print('Tweet ID ' + str(tweet.id))
-    #     print(f'Tweeted by: @{tweet.user.screen_name}, Created at: {str(tweet.created_at)}, Location: {tweet.user.location}' )
-    #     print("Tweet: " + tweet.full_text)
-
-    filename = "/usr/local/airflow/data/tweets.json" 
+    myPath = "/Users/shivnarayanan/Desktop/airflow-twitter-extraction/"
+    dockerPath = "/usr/local/airflow/"
+    filename = dockerPath +"data/tweets_{}.json".format(kwargs['todayDate'])
 
     with open(filename, "w") as output:
         for tweet in tweets:
             myjson = tweet._json
             output.write(json.dumps(myjson)+"\n")
 
-def readTweets():
+def readTweets(**kwargs):
+    import os 
     import json 
     import pandas as pd
-
-    filename = "/usr/local/airflow/data/tweets.json"  
+    
+    myPath = "/Users/shivnarayanan/Desktop/airflow-twitter-extraction/"
+    dockerPath = "/usr/local/airflow/"
+    filename = dockerPath +"data/tweets_{}.json".format(kwargs['todayDate'])
 
     dfs = []
     with open(filename) as fi:
@@ -54,11 +54,6 @@ def readTweets():
     
     df = pd.concat(dfs, ignore_index=True)
 
-    filepath = '/usr/local/airflow/data/dataframe.csv'
+    filepath = dockerPath +"data/tweets_dataframe_{}.json".format(kwargs['todayDate'])
     df.to_csv(filepath, index=False)
     print("Dataframe created!")
-
-fetchTweets()
-readTweets()
-
-
