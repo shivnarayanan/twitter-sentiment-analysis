@@ -1,4 +1,4 @@
-# twitter-airflow-github
+# Twitter Sentiment Analysis
 
 This is a personal project for me to learn Airflow and Docker. 
 
