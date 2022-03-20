@@ -4,11 +4,12 @@ def fetchTweets(**kwargs):
     from tweepy import OAuthHandler
     import pandas as pd
     import json
+    import config
 
-    consumer_key = 'VvfQ6PLzJON2w7RiOcyXmKm3O'
-    consumer_secret = 'iWWbwUGBuaoxBHkcnn5u8Vp8IQ8qg7YC6BEmxSa7KpClPYN0dF'
-    access_token = '1433222201780563969-PvXqlg9boERAZUgpVnA9I9zDjQvo5X' 
-    access_token_secret = 'c4y2surpvnhmFfqYLSPGhBbjBPOXlMYwh3GIh59W66Inn' 
+    consumer_key = config.consumer_key
+    consumer_secret = config.consumer_secret
+    access_token = config.access_token
+    access_token_secret = config.access_token_secret 
 
     auth = OAuthHandler(consumer_key, consumer_secret)
     auth.set_access_token(access_token, access_token_secret)
