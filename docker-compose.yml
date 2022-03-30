@@ -1,7 +1,8 @@
 version: '3'
 services:
   postgres:
-    image: postgres:9.6
+    image: postgres:14.2
+    restart: always
     environment:
       - POSTGRES_USER=airflow
       - POSTGRES_PASSWORD=airflow
@@ -12,7 +13,7 @@ services:
   webserver:
     image: puckel/docker-airflow:1.10.9
     build:
-      context: https://github.com/puckel/docker-airflow.git#1.10.9
+      context: https://github.com/shivnarayanan/docker-airflow.git
       dockerfile: Dockerfile
       args:
         AIRFLOW_DEPS: 
